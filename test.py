@@ -4,33 +4,43 @@ import json
 import random
 
 base = "https://artfakta.se"
-sok = "rödräv"
-url = base + "/artbestamning/search/species?q="
+url = base + "/artbestamning/search/species?q=" # Add search term at the end
  
 # create an HTML Session object
 session = HTMLSession()
-#session.post(base, cookies={"ADBMediaSource": "2"},headers = {'User-Agent': 'Mozilla/5.0'})
-#print(session.cookies.keys())
 
-def find_animal(name):
-    
-    # Use the object above to connect to needed webpage
+def find_animal(name): 
+    # Use the session above to connect to artfakta.se and search for the input name
     resp = session.get(url + name)
-    
     # Run JavaScript code on webpage
     resp.html.render()
 
+    #Takes the first item in the searchbox
     item = resp.html.find("td a")
 
+    if len(item) == 0:
+        return None
+
+    #From the link return the id (ex: 206026)
     return item[1].attrs["href"][-6:]
 
 def get_image(name):
+    #Get the species id from artfakta.se
     species_id = find_animal(name)
 
-    response = session.post("https://artfakta.se/api/MediaData/images/taxa/" + species_id + "?fromChilds=false&source=2&mediaClass=128&validated=null&skip=0&take=12&allImages=true&noOfTaxonImages=5", json={"data": []})
-    items = response.json()["items"]
-    element = random.choice(items)
-    return element["exports"][0]["url"]
+    if species_id:
+        response = session.post("https://artfakta.se/api/MediaData/images/taxa/" + species_id + "?fromChilds=false&source=2&mediaClass=128&validated=null&skip=0&take=12&allImages=true&noOfTaxonImages=5", json={"data": []})
+        data = response.json()
+        if data["totalCount"] == 0:
+            return None
+        items = data["items"]
+        element = random.choice(items)
+        return element["exports"][0]["url"]
 
-print(get_image("vitsippa"))
+    else:
+        # If we cant find the animal then return None and look for a new one
+        # This is also used if the request failed.
+        return None
+
+print(get_image("hermelin"))
 #print("It worked.. It FUKCING WORKED!")
