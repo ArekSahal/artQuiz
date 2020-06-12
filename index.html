@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <title>Artfakta från SLU Artdatabanken</title>
+  <base href="/">
+  <meta name="viewport" id="viewport" />
+  <meta name="description" content="Läs om arternas kännetecken, utbredning och ekologi. Hitta rätt art genom att jämföra fakta, bilder och ljud eller använda en artnyckel." />
+  <meta name="description" content="SLU Artdatabankens tjänsteportal" />
+  <meta name="msapplication-TileColor" content="#03575f">
+  <meta name="theme-color" content="#ffffff">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#007681">
+  <link rel="preload" as="font" href="./fa-solid-900.woff2" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" as="font" href="./fa-light-300.woff2" type="font/woff2" crossorigin="anonymous">
+  <style type="text/css">
+    body {
+        background-color: #E9EBEE;
+    }
+  </style>
+  <!-- Google Tag Manager -->
+  <script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-PGHJMNZ');
+  </script>
+  <!-- End Google Tag Manager -->
+  <!-- Header polyfills -->
+  <script src="https://sharedcomponents.artfakta.se/polyfills.js" type="module"></script>
+  <script src="https://sharedcomponents.artfakta.se/polyfills-es5.js" nomodule></script>
+  <link rel="stylesheet" href="styles.3c78ec65344f067f5084.css">
+</head>
+<body class="adb-body">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PGHJMNZ"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <app-root>
+    <div class="main-spinner">
+      <i class="fas fa-spinner fa-spin"></i>
+    </div>
+  </app-root>
+  <script type="text/javascript">
+    // Check if position sticky is supported
+            var el = document.createElement('a'), mStyle = el.style;
+            mStyle.cssText = "position:sticky;position:-webkit-sticky;position:-ms-sticky;";
+            if (mStyle.position.indexOf('sticky') !== -1) {
+                document.body.classList.add("sticky-position-support");
+            }
+            var viewportContent = 'width=device-width, initial-scale=1.0';
+            // Detect IOS mobile
+            if (!!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)) {
+                document.body.classList.add("ios-mobile");
+                viewportContent += ', maximum-scale=1.0, user-scalable=no';
+            }
+            document.getElementById('viewport').setAttribute('content', viewportContent);
+  </script>
+  <!-- E-Space - Artdatabanken (SLU) -->
+  <script async src="https://script.e-space.se/artfakta.min.js"></script>
+  <script src="runtime.38b4ca7d005bbc330360.js" defer></script>
+  <script src="polyfills-es5.3c6ffe7c35c38807d5f9.js" nomodule defer></script>
+  <script src="polyfills.2f4e2fa7bb58d63c2c86.js" defer></script>
+  <script src="scripts.1796596e043b42b33c92.js" defer></script>
+  <script src="main.d581f5063fed7d16eb93.js" defer></script>
+</body>
+</html>
