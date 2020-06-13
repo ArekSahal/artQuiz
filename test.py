@@ -22,20 +22,20 @@ def find_animal(name):
         return None
 
     #From the link return the id (ex: 206026)
-    return item[1].attrs["href"][-6:]
+    return {"id": item[1].attrs["href"][-6:], "link": base + item[1].attrs["href"] }
 
 def get_image(name):
     #Get the species id from artfakta.se
-    species_id = find_animal(name)
+    species_data = find_animal(name)
 
-    if species_id:
-        response = session.post("https://artfakta.se/api/MediaData/images/taxa/" + species_id + "?fromChilds=false&source=2&mediaClass=128&validated=null&skip=0&take=12&allImages=true&noOfTaxonImages=5", json={"data": []})
+    if species_data["id"]:
+        response = session.post("https://artfakta.se/api/MediaData/images/taxa/" + species_data["id"] + "?fromChilds=false&source=2&mediaClass=128&validated=null&skip=0&take=12&allImages=true&noOfTaxonImages=5", json={"data": []})
         data = response.json()
         if data["totalCount"] == 0:
             return None
         items = data["items"]
         element = random.choice(items)
-        return element["exports"][0]["url"]
+        return {"img": element["exports"][0]["url"], "link": species_data["link"]}
 
     else:
         # If we cant find the animal then return None and look for a new one
