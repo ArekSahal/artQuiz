@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <style>
+        body {
+            background-color: #436f8a;
+        }
+        .wrapper{
+            background-color: #436f8a;
+            margin: auto;
+            width: 400px;
+            height: 700px;
+            text-align: center;
+            text-justify: distribute;
+            border-radius: 10px;
+            transition: ease-in-out all 1s;
+            position: relative;
+
+        }
+
+        .wrapper{
+            background-color: #438a5e;
+            margin: auto;
+            width: 60vw;
+            height: 100vh;
+            font-size: 40px;
+            color: #f7fbe1;
+            text-align: center;
+            text-justify: distribute;
+            border-radius: 10px;
+            transition: ease-in-out all 1s;
+            position: relative;
+
+        }
+
+        .hide {
+            display: none;
+            width: 0%;
+            height: 0%;
+        }
+
+        .show {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .show-img {
+            max-height: 100%;
+            max-width: 100%; 
+        }
+
+        .show-img-container {
+            width: 100%;
+            height: 90%;
+        }
+
+        .hide-img {
+            height: 0%;
+            width: 0%;
+        }
+
+        #img-container {
+           overflow: hidden;
+           margin: auto;
+           transition: ease-in-out all 1s;
+         }
+
+         #guess {
+             margin: auto;
+             transition: ease-in-out all 1s;
+         }
+
+         #correct-text {
+             margin: auto;
+             transition: ease-in-out all 1s;
+         }
+
+         label {
+             margin: auto;
+         }
+
+         #correct-link {
+             display: block;
+             color: black;
+         }
+
+         .my-button:hover {
+            background-color: teal;
+         }
+
+         .my-button {
+             background-color: #f7fbe1;
+             color: black;
+             width: 20%;
+             margin: auto; 
+             padding-bottom: 5px;
+         }
+
+         #username {
+             height: 25px;
+             position: relative;
+             font-size: 30px;
+         }
+
+
+    </style>
+
+<div class="wrapper">
+    <div class="img-container hide-img" id="img-container" onclick="sendInfo()">
+        <img id="species-img" class="hide-img" src=https://www.w3schools.com/images/colorpicker.gif  alt=arek/>
+    </div>
+    <a href=# id=correct-link>
+    <p class="correct-answer hide" id=correct-text>
+        Correct answer
+    </p>
+    </a>    
+        <input type="text" id="guess" class="hide" name="guess" placeholder="Answer"><br>
+
+        <input class="chekbox-class" type="checkbox" id="faglar" name="grupp" value="faglar">
+        <label for="faglar">Fåglar</label><br>
+
+        <input class="chekbox-class" type="checkbox" id="daggdjur" name="grupp" value="daggdjur">
+        <label for="daggdjur">Däggdjur</label><br>
+
+        <input class="chekbox-class" type="checkbox" id="fiskar" name="grupp" value="fiskar">
+        <label for="fiskar">Fiskar</label> <br>
+
+        <input class="chekbox-class" type="checkbox" id="evertebrater" name="grupp" value="evertebrater">
+        <label for="evertebrater">Evertebrater</label> <br>
+
+        <input class="chekbox-class" type="checkbox" id="grod" name="grupp" value="grod">
+        <label for="grod">Grod och kräldjur</label> <br>
+
+        <label  for="Username">Username: </label>
+        <input type="text" id="username" name="username"><br>
+
+        <div class="my-button" onclick="getNewCard()">
+            Start
+        </div>
+
+
+
+
+
+</div>
+
+
+<script>
+
+    const url = "http://127.0.0.1:5000/"
+
+    function getEnter(event) {
+        
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            sendInfo()
+        }
+        }
+
+    function sendEnter(event) {
+
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            getNewCard()}
+
+
+    }
+
+    function getNewCard() {
+
+        // hide correct answer
+        var correctText = document.getElementById("correct-text")
+        correctText.className = "hide"
+
+        var data = {"groups": [], "username": ""}
+        
+        let groups = ["faglar", "fiskar", "daggdjur", "evertebrater", "grod"] // Manually define all groups
+        for (var i = 0; i<groups.length; i++){
+            // See what groups should be included
+            const checked = document.getElementById(groups[i]).checked
+            if (checked) {
+                data["groups"].push(groups[i])
+            }
+        }
+
+        // Get username
+        data["username"] = document.getElementById("username").value
+
+        // Send data to server
+        fetch(url, {
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            //make sure to serialize your JSON body
+            body: JSON.stringify({
+                data
+            })
+            })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(jsonResponse) {
+            console.log(jsonResponse)
+            changeState(jsonResponse["imgurl"], jsonResponse["answer"], "www.google.com")
+            var input = document.getElementById("guess");
+            input.removeEventListener("keyup", sendEnter)
+
+            input.addEventListener("keyup",getEnter); 
+
+        });
+
+        // recieve data from server
+
+        // Change state
+
+    }
+
+    function changeState(imgurl, answer, link) {
+        var img = document.getElementById("species-img")
+        img.src = imgurl
+        img.className = "show-img"
+
+        var imgContainer = document.getElementById("img-container")
+        imgContainer.className = "show-img-container"
+        imgContainer.onclick = sendInfo
+
+        var correctText = document.getElementById("correct-text")
+        correctText.innerHTML = answer
+
+        var correctLink = document.getElementById("correct-link")
+        correctText.href = link
+
+        var gueeBox = document.getElementById("guess")
+        // gueeBox.className = "show"
+
+    }
+
+    function sendInfo() {
+
+        var data = {"username": "", "species": "", "answer": ""}
+
+        data["username"] = document.getElementById("username").value
+
+        var correctText = document.getElementById("correct-text")
+        data["species"] = correctText.innerHTML
+        data["answer"] = document.getElementById("guess").value
+        console.log(data)
+
+        // send data
+
+        // Show right answer
+        correctText.className = "correct-text show"
+
+        var imgContainer = document.getElementById("img-container")
+        imgContainer.onclick = getNewCard
+
+        var input = document.getElementById("guess");
+        input.removeEventListener("keyup", getEnter)
+
+        input.addEventListener("keyup", sendEnter); 
+    }
+</script>
+</body>
+</html> 

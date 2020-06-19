@@ -2,15 +2,31 @@ from requests_html import HTMLSession
 import time
 import json
 import random
+import csv
+
+
+
+# Read data
+
+groups = ["faglar", "daggdjur", "fiskar"]
+failed = ["rörsångare", "trädkrypare", "kungsfiskare", "nordisk fladdermus", "varg", "björn", "fjällräv", "järv", "lodjur", "marulk", "pirål", "rödhaj", "kolja", "kummel", "hälleflundra", ]
+
+"""
+filename: faglar_data.txt
+
+stenskvätta, link1, link2, link3
+blåmes, link1, link2
+"""
+
+
 
 base = "https://artfakta.se"
 url = base + "/artbestamning/search/species?q=" # Add search term at the end
- 
-# create an HTML Session object
-session = HTMLSession()
 
-def find_animal(name): 
+
+def find_animal(name, count): 
     # Use the session above to connect to artfakta.se and search for the input name
+    session = HTMLSession()
     resp = session.get(url + name)
     # Run JavaScript code on webpage
     resp.html.render()
@@ -19,28 +35,120 @@ def find_animal(name):
     item = resp.html.find("td a")
 
     if len(item) == 0:
-        return None
+        if count > 2:
+            print("giving up on " + name)
+            failed.append(name)
+            return {"id": None}
+
+        print("failed at finding " + name + ", trying again")
+        return find_animal(name, count + 1)
 
     #From the link return the id (ex: 206026)
-    return {"id": item[1].attrs["href"][-6:], "link": base + item[1].attrs["href"] }
+    sp_id = item[1].attrs["href"].split("-")[-1]
+    return {"id": sp_id, "link": base + item[1].attrs["href"] }
 
-def get_image(name):
+def get_images(name, count):
     #Get the species id from artfakta.se
-    species_data = find_animal(name)
+    species_data = find_animal(name, 0)
+    #asyncio.run(species_data)
+    session = HTMLSession()
 
     if species_data["id"]:
+        # Post requests that returns json object with image-urls
         response = session.post("https://artfakta.se/api/MediaData/images/taxa/" + species_data["id"] + "?fromChilds=false&source=2&mediaClass=128&validated=null&skip=0&take=12&allImages=true&noOfTaxonImages=5", json={"data": []})
         data = response.json()
+
         if data["totalCount"] == 0:
-            return None
+            if count > 2:
+                print("giving up on " + name)
+                failed.append(name)
+                return [""]
+
+            print("failed at finding images for " + name + ", trying again")
+            return get_images(name, count + 1)
+        imgs = []
         items = data["items"]
-        element = random.choice(items)
-        return {"img": element["exports"][0]["url"], "link": species_data["link"]}
+        for i in items:
+            imgs.append(i["exports"][0]["url"])
+        return [name] + imgs # Should add copyright info
 
     else:
         # If we cant find the animal then return None and look for a new one
         # This is also used if the request failed.
-        return None
+        return [""]
 
-print(get_image("hermelin"))
-#print("It worked.. It FUKCING WORKED!")
+
+def scan_for(group):
+    names = []
+    with open(group + ".txt", "r") as f:
+        print("Reading file: " + group + ".txt")
+        lines = f.readlines()
+        mod_lines = []
+        print("Modifing characters")
+        for line in lines:
+            l = line.replace("Ã¶", "ö")
+            l = l.replace("Ã¥", "å")
+            l = l.replace("Ã¤", "ä")
+            l = l.replace("\n", "")
+            mod_lines.append(l)
+        names = mod_lines
+
+    for name in names:
+        with open(group + ".csv", 'a', newline='') as file:
+            writer = csv.writer(file)
+            print("Getting images for: " + name)
+            imgs = get_images(name, 0)
+            if imgs[0] != "":
+                writer.writerow(imgs)
+    print("saved to file: " + group + ".csv")
+    print("faield to find: ")
+    print(failed)
+
+    return 200
+    
+
+def continue_scanning(group):
+    names = []
+    with open(group + ".txt", "r") as f:
+        print("Reading file: " + group + ".txt")
+        lines = f.readlines()
+        mod_lines = []
+        print("Modifing characters")
+        for line in lines:
+            l = line.replace("Ã¶", "ö")
+            l = l.replace("Ã¥", "å")
+            l = l.replace("Ã¤", "ä")
+            l = l.replace("\n", "")
+            mod_lines.append(l)
+        names = mod_lines
+    already_done_names = []
+    with open(group + '.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for i in csv_reader:
+            already_done_names.append(i[0])
+    
+    for name in names:
+        if name in already_done_names:
+            pass
+        else:
+            with open(group + ".csv", 'a', newline='') as file:
+                writer = csv.writer(file)
+                print("Getting images for: " + name)
+                imgs = get_images(name, 0)
+                if imgs[0] != "":
+                    writer.writerow(imgs)
+    print("saved to file: " + group + ".csv")
+    
+    
+
+        
+def scan_for_all(cont=False):
+    for i in groups:
+        if cont:
+            continue_scanning(i)
+        else:
+            scan_for(i)
+
+scan_for_all(cont=True)
+#print("fåglar")
+

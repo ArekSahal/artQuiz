@@ -11,7 +11,7 @@ knipa
 storskrake
 orre
 tjäder
-ripa
+fjällripa
 fasan
 storlom
 skäggdopping
@@ -19,7 +19,7 @@ storskarv
 rördrom
 gråhäger
 havsörn
-kungsörm
+kungsörn
 fiskgjuse
 brun kärrhök
 ormvråk
@@ -62,7 +62,6 @@ pärluggla
 kattuggla
 nattskärra
 tornseglare
-kungsfiskare
 göktyta
 gröngöling
 spillkråka
@@ -88,7 +87,6 @@ björktrast
 taltrast
 rödvingetrast
 sävsångare
-rörsångare
 ärtsångare
 törnsångare
 svarthätta
@@ -104,7 +102,6 @@ svartmes
 tofsmes
 stjärtmes
 nötväcka
-trädkrypare
 törnskata
 nötskrika
 skata
@@ -121,7 +118,6 @@ steglits
 grönfink
 grönsiska
 stenknäck
-korsbäbb
 domherre
 gulsparv
 sävsparv
