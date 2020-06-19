@@ -8,7 +8,7 @@ data = {}
 
 def read_group(group):
     group_sub = []
-    with open(group + '.csv') as csv_file:
+    with open(group + '.csv', encoding="utf8") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
             l = row[0]

@@ -80,7 +80,7 @@ def get_images(name, count):
 
 def scan_for(group):
     names = []
-    with open(group + ".txt", "r") as f:
+    with open(group + ".txt", "r", encoding="utf8") as f:
         print("Reading file: " + group + ".txt")
         lines = f.readlines()
         mod_lines = []
@@ -94,7 +94,7 @@ def scan_for(group):
         names = mod_lines
 
     for name in names:
-        with open(group + ".csv", 'a', newline='') as file:
+        with open(group + ".csv", 'a', newline='', encoding="utf8") as file:
             writer = csv.writer(file)
             print("Getting images for: " + name)
             imgs = get_images(name, 0)
@@ -109,7 +109,7 @@ def scan_for(group):
 
 def continue_scanning(group):
     names = []
-    with open(group + ".txt", "r") as f:
+    with open(group + ".txt", "r", encoding="utf8") as f:
         print("Reading file: " + group + ".txt")
         lines = f.readlines()
         mod_lines = []
@@ -122,7 +122,7 @@ def continue_scanning(group):
             mod_lines.append(l)
         names = mod_lines
     already_done_names = []
-    with open(group + '.csv') as csv_file:
+    with open(group + '.csv', encoding="utf8") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for i in csv_reader:
             already_done_names.append(i[0])
@@ -131,7 +131,7 @@ def continue_scanning(group):
         if name in already_done_names:
             pass
         else:
-            with open(group + ".csv", 'a', newline='') as file:
+            with open(group + ".csv", 'a', newline='', encoding="utf8") as file:
                 writer = csv.writer(file)
                 print("Getting images for: " + name)
                 imgs = get_images(name, 0)
