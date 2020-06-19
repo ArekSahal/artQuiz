@@ -8,7 +8,7 @@ import csv
 
 # Read data
 
-groups = ["faglar", "daggdjur", "fiskar", "evertebrater", "grod"]
+groups = ["faglar", "daggdjur", "fiskar", "evertebrater", "grod", "svamp"]
 failed = ["rörsångare", "trädkrypare", "kungsfiskare", "nordisk fladdermus", "varg", "björn", "fjällräv", "järv", "lodjur", "marulk", "pirål", 
 "rödhaj", "kolja", "kummel", "hälleflundra", "vattenkvalster", "lockespindel", "enkelfoting", "dubbelfoting", "sötvattensgråsugga", "skinnbaggar", 
 "ängsskinnbagge", "skräddare", "skalbaggar", "vivel", "jordlöpare", "dykare", "virvelbagge", "flickslända","dagslända", "nattslända", "parasitstekel",
