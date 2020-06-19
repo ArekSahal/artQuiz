@@ -1,7 +1,7 @@
 import csv
 from random import choice
 
-groups = ["faglar", "daggdjur", "fiskar"]
+groups = ["faglar", "daggdjur", "fiskar", "evertebrater", "grod"]
 
 data = {}
 

@@ -8,8 +8,11 @@ import csv
 
 # Read data
 
-groups = ["faglar", "daggdjur", "fiskar"]
-failed = ["rörsångare", "trädkrypare", "kungsfiskare", "nordisk fladdermus", "varg", "björn", "fjällräv", "järv", "lodjur", "marulk", "pirål", "rödhaj", "kolja", "kummel", "hälleflundra", ]
+groups = ["faglar", "daggdjur", "fiskar", "evertebrater", "grod"]
+failed = ["rörsångare", "trädkrypare", "kungsfiskare", "nordisk fladdermus", "varg", "björn", "fjällräv", "järv", "lodjur", "marulk", "pirål", 
+"rödhaj", "kolja", "kummel", "hälleflundra", "vattenkvalster", "lockespindel", "enkelfoting", "dubbelfoting", "sötvattensgråsugga", "skinnbaggar", 
+"ängsskinnbagge", "skräddare", "skalbaggar", "vivel", "jordlöpare", "dykare", "virvelbagge", "flickslända","dagslända", "nattslända", "parasitstekel",
+"bi", "humla", "myra", "gräsfjäril", "harkrank", "stickmygga", "vårtbitare"]
 
 """
 filename: faglar_data.txt

@@ -18,6 +18,10 @@ def hello_world():
 
     return jsonify({"answer": img[0], "imgurl": img[1]})
 
+@app.route("/", methods=["GET"])
+def hello():
+    return "You should not be here."
+
 
 if __name__ == '__main__':
     app.run(debug=True)
