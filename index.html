@@ -1,77 +1,275 @@
-<!doctype html>
-<html lang="sv">
-<head>
-  <meta charset="utf-8">
-  <title>Artfakta från SLU Artdatabanken</title>
-  <base href="/">
-  <meta name="viewport" id="viewport" />
-  <meta name="description" content="Läs om arternas kännetecken, utbredning och ekologi. Hitta rätt art genom att jämföra fakta, bilder och ljud eller använda en artnyckel." />
-  <meta name="description" content="SLU Artdatabankens tjänsteportal" />
-  <meta name="msapplication-TileColor" content="#03575f">
-  <meta name="theme-color" content="#ffffff">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/manifest.json">
-  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#007681">
-  <link rel="preload" as="font" href="./fa-solid-900.woff2" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" as="font" href="./fa-light-300.woff2" type="font/woff2" crossorigin="anonymous">
-  <style type="text/css">
-    body {
-        background-color: #E9EBEE;
-    }
-  </style>
-  <!-- Google Tag Manager -->
-  <script>
-    (function (w, d, s, l, i) {
-        w[l] = w[l] || []; w[l].push({
-            'gtm.start':
-                new Date().getTime(), event: 'gtm.js'
-        }); var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-PGHJMNZ');
-  </script>
-  <!-- End Google Tag Manager -->
-  <!-- Header polyfills -->
-  <script src="https://sharedcomponents.artfakta.se/polyfills.js" type="module"></script>
-  <script src="https://sharedcomponents.artfakta.se/polyfills-es5.js" nomodule></script>
-  <link rel="stylesheet" href="styles.3c78ec65344f067f5084.css">
-</head>
-<body class="adb-body">
-  <!-- Google Tag Manager (noscript) -->
-  <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PGHJMNZ"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe>
-  </noscript>
-  <!-- End Google Tag Manager (noscript) -->
-  <app-root>
-    <div class="main-spinner">
-      <i class="fas fa-spinner fa-spin"></i>
+<!DOCTYPE html>
+<html>
+<body>
+
+    <style>
+        body {
+            background-color: #436f8a;
+        }
+        .wrapper{
+            background-color: #436f8a;
+            margin: auto;
+            width: 400px;
+            height: 700px;
+            text-align: center;
+            text-justify: distribute;
+            border-radius: 10px;
+            transition: ease-in-out all 1s;
+            position: relative;
+
+        }
+
+        .wrapper{
+            background-color: #438a5e;
+            margin: auto;
+            width: 60vw;
+            height: 100vh;
+            font-size: 40px;
+            color: #f7fbe1;
+            text-align: center;
+            text-justify: distribute;
+            border-radius: 10px;
+            transition: ease-in-out all 1s;
+            position: relative;
+
+        }
+
+        .hide {
+            display: none;
+            width: 0%;
+            height: 0%;
+        }
+
+        .show {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .show-img {
+            max-height: 100%;
+            max-width: 100%; 
+        }
+
+        .show-img-container {
+            width: 100%;
+            height: 90%;
+        }
+
+        .hide-img {
+            height: 0%;
+            width: 0%;
+        }
+
+        #img-container {
+           overflow: hidden;
+           margin: auto;
+           transition: ease-in-out all 1s;
+         }
+
+         #guess {
+             margin: auto;
+             transition: ease-in-out all 1s;
+         }
+
+         #correct-text {
+             margin: auto;
+             transition: ease-in-out all 1s;
+         }
+
+         label {
+             margin: auto;
+         }
+
+         #correct-link {
+             display: block;
+             color: black;
+         }
+
+         .my-button:hover {
+            background-color: teal;
+         }
+
+         .my-button {
+             background-color: #f7fbe1;
+             color: black;
+             width: 20%;
+             margin: auto; 
+             padding-bottom: 5px;
+         }
+
+         #username {
+             height: 25px;
+             position: relative;
+             font-size: 30px;
+         }
+
+
+    </style>
+
+<div class="wrapper">
+    <div class="img-container hide-img" id="img-container" onclick="sendInfo()">
+        <img id="species-img" class="hide-img" src=https://www.w3schools.com/images/colorpicker.gif  alt=arek/>
     </div>
-  </app-root>
-  <script type="text/javascript">
-    // Check if position sticky is supported
-            var el = document.createElement('a'), mStyle = el.style;
-            mStyle.cssText = "position:sticky;position:-webkit-sticky;position:-ms-sticky;";
-            if (mStyle.position.indexOf('sticky') !== -1) {
-                document.body.classList.add("sticky-position-support");
+    <a href=# id=correct-link>
+    <p class="correct-answer hide" id=correct-text>
+        Correct answer
+    </p>
+    </a>    
+        <input type="text" id="guess" class="hide" name="guess" placeholder="Answer"><br>
+
+        <input class="chekbox-class" type="checkbox" id="faglar" name="grupp" value="faglar">
+        <label for="faglar">Fåglar</label><br>
+
+        <input class="chekbox-class" type="checkbox" id="daggdjur" name="grupp" value="daggdjur">
+        <label for="daggdjur">Däggdjur</label><br>
+
+        <input class="chekbox-class" type="checkbox" id="fiskar" name="grupp" value="fiskar">
+        <label for="fiskar">Fiskar</label> <br>
+
+        <input class="chekbox-class" type="checkbox" id="evertebrater" name="grupp" value="evertebrater">
+        <label for="evertebrater">Evertebrater</label> <br>
+
+        <input class="chekbox-class" type="checkbox" id="grod" name="grupp" value="grod">
+        <label for="grod">Grod och kräldjur</label> <br>
+
+        <label  for="Username">Username: </label>
+        <input type="text" id="username" name="username"><br>
+
+        <div class="my-button" onclick="getNewCard()">
+            Start
+        </div>
+
+
+
+
+
+</div>
+
+
+<script>
+
+    const url = "http://127.0.0.1:5000/"
+
+    function getEnter(event) {
+        
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            sendInfo()
+        }
+        }
+
+    function sendEnter(event) {
+
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            getNewCard()}
+
+
+    }
+
+    function getNewCard() {
+
+        // hide correct answer
+        var correctText = document.getElementById("correct-text")
+        correctText.className = "hide"
+
+        var data = {"groups": [], "username": ""}
+        
+        let groups = ["faglar", "fiskar", "daggdjur", "evertebrater", "grod"] // Manually define all groups
+        for (var i = 0; i<groups.length; i++){
+            // See what groups should be included
+            const checked = document.getElementById(groups[i]).checked
+            if (checked) {
+                data["groups"].push(groups[i])
             }
-            var viewportContent = 'width=device-width, initial-scale=1.0';
-            // Detect IOS mobile
-            if (!!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)) {
-                document.body.classList.add("ios-mobile");
-                viewportContent += ', maximum-scale=1.0, user-scalable=no';
-            }
-            document.getElementById('viewport').setAttribute('content', viewportContent);
-  </script>
-  <!-- E-Space - Artdatabanken (SLU) -->
-  <script async src="https://script.e-space.se/artfakta.min.js"></script>
-  <script src="runtime.38b4ca7d005bbc330360.js" defer></script>
-  <script src="polyfills-es5.3c6ffe7c35c38807d5f9.js" nomodule defer></script>
-  <script src="polyfills.2f4e2fa7bb58d63c2c86.js" defer></script>
-  <script src="scripts.1796596e043b42b33c92.js" defer></script>
-  <script src="main.d581f5063fed7d16eb93.js" defer></script>
+        }
+
+        // Get username
+        data["username"] = document.getElementById("username").value
+
+        // Send data to server
+        fetch(url, {
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            //make sure to serialize your JSON body
+            body: JSON.stringify({
+                data
+            })
+            })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(jsonResponse) {
+            console.log(jsonResponse)
+            changeState(jsonResponse["imgurl"], jsonResponse["answer"], "www.google.com")
+            var input = document.getElementById("guess");
+            input.removeEventListener("keyup", sendEnter)
+
+            input.addEventListener("keyup",getEnter); 
+
+        });
+
+        // recieve data from server
+
+        // Change state
+
+    }
+
+    function changeState(imgurl, answer, link) {
+        var img = document.getElementById("species-img")
+        img.src = imgurl
+        img.className = "show-img"
+
+        var imgContainer = document.getElementById("img-container")
+        imgContainer.className = "show-img-container"
+        imgContainer.onclick = sendInfo
+
+        var correctText = document.getElementById("correct-text")
+        correctText.innerHTML = answer
+
+        var correctLink = document.getElementById("correct-link")
+        correctText.href = link
+
+        var gueeBox = document.getElementById("guess")
+        // gueeBox.className = "show"
+
+    }
+
+    function sendInfo() {
+
+        var data = {"username": "", "species": "", "answer": ""}
+
+        data["username"] = document.getElementById("username").value
+
+        var correctText = document.getElementById("correct-text")
+        data["species"] = correctText.innerHTML
+        data["answer"] = document.getElementById("guess").value
+        console.log(data)
+
+        // send data
+
+        // Show right answer
+        correctText.className = "correct-text show"
+
+        var imgContainer = document.getElementById("img-container")
+        imgContainer.onclick = getNewCard
+
+        var input = document.getElementById("guess");
+        input.removeEventListener("keyup", getEnter)
+
+        input.addEventListener("keyup", sendEnter); 
+    }
+</script>
 </body>
-</html>
+</html> 
