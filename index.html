@@ -145,6 +145,8 @@
 
         <input class="chekbox-class" type="checkbox" id="svamp" name="grupp" value="svamp">
         <label for="svamp">Svamp</label> <br>
+        <input class="chekbox-class" type="checkbox" id="floristik" name="grupp" value="floristik">
+        <label for="floristik">Floristik</label> <br>
 
         <label  for="Username" class="hide">Username: </label>
         <input type="text" id="username" class="hide" name="username"><br>
@@ -195,7 +197,7 @@
 
         var data = {"groups": [], "username": ""}
         
-        let groups = ["faglar", "fiskar", "daggdjur", "evertebrater", "grod", "svamp"] // Manually define all groups
+        let groups = ["faglar", "fiskar", "daggdjur", "evertebrater", "grod", "svamp", "floristik"] // Manually define all groups
         for (var i = 0; i<groups.length; i++){
             // See what groups should be included
             const checked = document.getElementById(groups[i]).checked
